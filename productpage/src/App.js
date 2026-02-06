@@ -1,5 +1,6 @@
 import { useState } from "react";
 import products from "./products";
+import "./App.css";
 
 function App() {
   const [search, setSearch] = useState("");
@@ -17,33 +18,32 @@ function App() {
   });
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="container">
       <h2>Product List</h2>
 
-      {/* Search */}
-      <input
-        type="text"
-        placeholder="Search product..."
-        value={search}
-        onChange={(e) => setSearch(e.target.value)}
-      />
+      <div className="controls">
+        <input
+          type="text"
+          placeholder="Search product..."
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
+        />
 
-      {/* Filter */}
-      <select
-        value={category}
-        onChange={(e) => setCategory(e.target.value)}
-        style={{ marginLeft: "10px" }}
-      >
-        <option value="All">All</option>
-        <option value="Mobile">Mobile</option>
-        <option value="Laptop">Laptop</option>
-      </select>
+        <select
+          value={category}
+          onChange={(e) => setCategory(e.target.value)}
+        >
+          <option value="All">All</option>
+          <option value="Mobile">Mobile</option>
+          <option value="Laptop">Laptop</option>
+        </select>
+      </div>
 
-      {/* Product List */}
-      <ul>
+      <ul className="product-list">
         {filteredProducts.map((product) => (
-          <li key={product.id}>
-            {product.name} ({product.category})
+          <li key={product.id} className="product-card">
+            <span>{product.name}</span>
+            <span className="product-category">{product.category}</span>
           </li>
         ))}
       </ul>
