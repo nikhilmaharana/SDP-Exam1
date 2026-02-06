@@ -39,14 +39,14 @@ function App() {
         </select>
       </div>
 
-      <ul className="product-list">
+      <div className="product-list">
         {filteredProducts.map((product) => (
-          <li key={product.id} className="product-card">
-            <span>{product.name}</span>
-            <span className="product-category">{product.category}</span>
-          </li>
+          <div key={product.id} className="product-card">
+            <div className="product-name">{product.name}</div>
+            <div className="product-category">{product.category}</div>
+          </div>
         ))}
-      </ul>
+      </div>
     </div>
   );
 }
