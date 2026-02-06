@@ -1,23 +1,52 @@
-import logo from './logo.svg';
-import './App.css';
+import { useState } from "react";
+import products from "./products";
 
 function App() {
+  const [search, setSearch] = useState("");
+  const [category, setCategory] = useState("All");
+
+  const filteredProducts = products.filter((product) => {
+    const matchesSearch = product.name
+      .toLowerCase()
+      .includes(search.toLowerCase());
+
+    const matchesCategory =
+      category === "All" || product.category === category;
+
+    return matchesSearch && matchesCategory;
+  });
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div style={{ padding: "20px" }}>
+      <h2>Product List</h2>
+
+      {/* Search */}
+      <input
+        type="text"
+        placeholder="Search product..."
+        value={search}
+        onChange={(e) => setSearch(e.target.value)}
+      />
+
+      {/* Filter */}
+      <select
+        value={category}
+        onChange={(e) => setCategory(e.target.value)}
+        style={{ marginLeft: "10px" }}
+      >
+        <option value="All">All</option>
+        <option value="Mobile">Mobile</option>
+        <option value="Laptop">Laptop</option>
+      </select>
+
+      {/* Product List */}
+      <ul>
+        {filteredProducts.map((product) => (
+          <li key={product.id}>
+            {product.name} ({product.category})
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
