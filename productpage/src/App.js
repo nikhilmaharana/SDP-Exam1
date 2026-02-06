@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useMemo, useCallback } from "react";
 import products from "./products";
 import "./App.css";
 
@@ -6,16 +6,28 @@ function App() {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("All");
 
-  const filteredProducts = products.filter((product) => {
-    const matchesSearch = product.name
-      .toLowerCase()
-      .includes(search.toLowerCase());
+  const handleSearchChange = useCallback((e) => {
+    setSearch(e.target.value);
+  }, []);
 
-    const matchesCategory =
-      category === "All" || product.category === category;
+  const handleCategoryChange = useCallback((e) => {
+    setCategory(e.target.value);
+  }, []);
 
-    return matchesSearch && matchesCategory;
-  });
+  const filteredProducts = useMemo(() => {
+    console.log("Filtering products...");
+
+    return products.filter((product) => {
+      const matchesSearch = product.name
+        .toLowerCase()
+        .includes(search.toLowerCase());
+
+      const matchesCategory =
+        category === "All" || product.category === category;
+
+      return matchesSearch && matchesCategory;
+    });
+  }, [search, category]);
 
   return (
     <div className="container">
@@ -26,13 +38,10 @@ function App() {
           type="text"
           placeholder="Search product..."
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={handleSearchChange}
         />
 
-        <select
-          value={category}
-          onChange={(e) => setCategory(e.target.value)}
-        >
+        <select value={category} onChange={handleCategoryChange}>
           <option value="All">All</option>
           <option value="Mobile">Mobile</option>
           <option value="Laptop">Laptop</option>
